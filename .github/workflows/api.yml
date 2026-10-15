@@ -1,7 +1,10 @@
-name: build
+name: build-api
 on:
   push:
     branches: [main]
+    paths:
+      - 'src/backend/**'
+      - '.github/workflows/build.yml'
 
 permissions:
   contents: read
@@ -20,12 +23,14 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository_owner }}/patientrepo-api
           tags: |
             type=sha
             type=raw,value=latest
       - uses: docker/build-push-action@v6
         with:
+          context: src/backend
+          file: src/backend/PatientRepo.Api/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
