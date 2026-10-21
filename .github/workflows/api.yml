@@ -4,7 +4,7 @@ on:
     branches: [main]
     paths:
       - 'src/backend/**'
-      - '.github/workflows/build.yml'
+      - '.github/workflows/api.yml'
 
 permissions:
   contents: read
