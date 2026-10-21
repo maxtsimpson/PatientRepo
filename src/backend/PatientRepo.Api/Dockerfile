@@ -19,3 +19,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "PatientRepo.Api.dll"]
+
+LABEL org.opencontainers.image.description "ASP.NET Core API for processing Patient Repo data"

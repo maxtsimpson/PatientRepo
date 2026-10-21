@@ -21,3 +21,5 @@ USER bun
 
 EXPOSE 3000
 CMD ["bun", "src/index.ts"]
+
+LABEL org.opencontainers.image.description "React Frontend for managing the Patient Repo reference data and admin tasks"

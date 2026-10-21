@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Everything below is deployed into this namespace
+namespace: patientrepo
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: patientrepo
+
+resources:
+  - namespace.yaml
+  - backend/deployment.yaml
+  - backend/service.yaml
+  - frontend/deployment.yaml
+  - frontend/service.yaml
+  - ingressroute.yaml
+
+# Image tags live here so CI can bump them with:
+#   kustomize edit set image ghcr.io/maxtsimpson/patientrepo-api=ghcr.io/maxtsimpson/patientrepo-api:sha-<commit>
+images:
+  - name: ghcr.io/maxtsimpson/patientrepo-api
+    newTag: sha-fa02bbc
+  - name: ghcr.io/maxtsimpson/patientrepo-fe
+    newTag: sha-fa02bbc

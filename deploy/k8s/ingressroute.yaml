@@ -1,0 +1,32 @@
+# Path-based routing on the server's IP (http://192.168.20.18):
+#   /backend/*  -> .NET API (prefix stripped, so /backend/foo reaches the API as /foo)
+#   /*          -> Bun front end (which owns its own /api/* routes)
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-backend-prefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /backend
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: patientrepo
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/backend`)
+      kind: Rule
+      middlewares:
+        - name: strip-backend-prefix
+      services:
+        - name: patientrepo-api
+          port: 80
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: patientrepo-fe
+          port: 80

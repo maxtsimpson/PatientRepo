@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patientrepo-fe
+  labels:
+    app.kubernetes.io/name: patientrepo-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: patientrepo-fe
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: patientrepo-fe
+    spec:
+      securityContext:
+        # the image's 'bun' user is a name, so give Kubernetes its numeric uid
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: frontend
+          # tag is set in kustomization.yaml
+          image: ghcr.io/maxtsimpson/patientrepo-fe
+          ports:
+            - name: http
+              containerPort: 3000
+          # Bun bundles the React/Tailwind assets on startup, so allow it time
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+            failureThreshold: 24
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
