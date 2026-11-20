@@ -1,0 +1,12 @@
+# Opens a pull request when a newer base image is available.
+# A merged PR changes src/backend/** or src/frontend/**, so the build workflows run.
+version: 2
+updates:
+  - package-ecosystem: docker
+    directory: /src/backend/PatientRepo.Api
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: /src/frontend
+    schedule:
+      interval: weekly
