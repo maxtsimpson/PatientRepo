@@ -15,7 +15,7 @@ COPY . .
 RUN dotnet publish PatientRepo.Api/PatientRepo.Api.csproj -c Release -o /app --no-restore
 
 # Stage 2: Build the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:10.0.15
+FROM mcr.microsoft.com/dotnet/aspnet:11.0.0
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "PatientRepo.Api.dll"]
