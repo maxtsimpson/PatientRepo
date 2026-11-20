@@ -20,6 +20,6 @@ resources:
 #   kustomize edit set image ghcr.io/maxtsimpson/patientrepo-api=ghcr.io/maxtsimpson/patientrepo-api:sha-<commit>
 images:
   - name: ghcr.io/maxtsimpson/patientrepo-api
-    newTag: sha-fa02bbc
+    newTag: sha-f05412a
   - name: ghcr.io/maxtsimpson/patientrepo-fe
     newTag: sha-fa02bbc
